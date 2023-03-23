@@ -4,7 +4,7 @@ from prometheus_flask_exporter import PrometheusMetrics
 app = Flask(__name__)
 metrics = PrometheusMetrics(app)
 
-@app.route('/my-api')
+@app.route('/')
 def my_api():
     value = 0
     # your logic to update value goes here
