@@ -1,30 +1,14 @@
-from flask import Flask, Response
-from prometheus_client import Counter, Gauge, Histogram, generate_latest, CONTENT_TYPE_LATEST
+from flask import Flask
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 
-# Define your metrics
-c = Counter('my_counter', 'Description of my counter')
-g = Gauge('my_gauge', 'Description of my gauge')
-h = Histogram('my_histogram', 'Description of my histogram')
-
-@app.route('/')
-def hello_world():
-    # Increment the counter
-    c.inc()
-
-    # Set the gauge
-    g.set(42)
-
-    # Record the histogram
-    h.observe(0.5)
-
-    return 'Hello, World!'
-
-# Expose the Prometheus client HTTP server endpoint
-@app.route('/metrics')
-def metrics():
-    return Response(generate_latest(), mimetype=CONTENT_TYPE_LATEST)
+@app.route('/my-api')
+def my_api():
+    value = 0
+    # your logic to update value goes here
+    return f'The current value is {value}'
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run()
